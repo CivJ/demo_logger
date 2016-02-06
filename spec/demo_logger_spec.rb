@@ -1,7 +1,7 @@
 require 'clean_config'
-require_relative '../lib/demo_logger/logger'
+require_relative '../lib/demo_logger/file_logger'
 
-describe DemoLogger::Logger do
+describe DemoLogger::FileLogger do
   context '::new' do
     context 'configuration settings' do
       it 'creates an instance from a config file' do
@@ -9,7 +9,7 @@ describe DemoLogger::Logger do
         # Reset the configuration by hand during an Rspec run.
         CleanConfig::Configuration.instance.merge!(demo_logger: { level: 'info' })
 
-        logger = DemoLogger::Logger.new
+        logger = DemoLogger::FileLogger.new
         expect(logger).to_not be_nil
         expect(logger.level).to be Logger::INFO
         expect(logger.log_file.path).to eq File.join(Dir.pwd, 'logger.log')

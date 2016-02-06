@@ -3,7 +3,7 @@ require 'clean_config' # I wrote this open-source library
 
 module DemoLogger
   # TODO: rename to FileLogger
-  class Logger < Logger
+  class FileLogger < Logger
     include CleanConfig::Configurable
 
     # TODO: #log and #info are the same. How should log map onto logger's api?
@@ -31,7 +31,7 @@ module DemoLogger
       if config[:level]
         level = Kernel.const_get("Logger::#{config[:level].upcase}")
       end
-      self.level = level || Logger::WARN
+      self.level = level || FileLogger::WARN
     end
   end
 end
