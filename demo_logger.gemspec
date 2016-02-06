@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'An example logger layered on top of the built in Ruby logger'
   spec.description   = ''
   spec.homepage      = 'http://github.com/CivJ/demo_logger'
+  spec.required_ruby_version = '~> 2.2'
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
@@ -24,6 +25,8 @@ Gem::Specification.new do |spec|
   # rubocop:disable Style/RegexpLiteral
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.require_paths = ['lib']
+
+  spec.add_runtime_dependency 'clean_config', '= 0.0.2'
 
   spec.add_development_dependency 'bundler', '~> 1.10'
   spec.add_development_dependency 'rake', '~> 10.0'
