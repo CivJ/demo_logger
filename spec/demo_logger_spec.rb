@@ -8,7 +8,7 @@ describe DemoLogger::Logger do
         logger = DemoLogger::Logger.new
         expect(logger).to_not be_nil
         expect(logger.level).to be Logger::INFO
-        expect(logger.log_file.path).to eql File.join(Dir.pwd, 'logger.log')
+        expect(logger.log_file.path).to eq File.join(Dir.pwd, 'logger.log')
       end
     end
   end
