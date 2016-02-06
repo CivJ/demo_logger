@@ -2,7 +2,6 @@ require 'logger'
 
 module DemoLogger
   class Logger < Logger
-
     # TODO: option for file.sync
     # @param  config [Hash] config options
     # @option config [String] :filename

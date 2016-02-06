@@ -1,5 +1,2 @@
-require "demo_logger/version"
-
-module DemoLogger
-  # Your code goes here...
-end
+require_relative 'demo_logger/version'
+require_relative 'demo_logger/logger'
