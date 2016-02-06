@@ -13,4 +13,4 @@ namespace :rm do
 end
 
 desc 'Run style check, tests and build'
-task full_build: [:'rm:tmp', :rubocop, :spec]
+task full_build: [:'rm:tmp', :rubocop, :spec, :build]
