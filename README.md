@@ -16,6 +16,13 @@ Or install it yourself as:
 
     $ gem install demo_logger
 
+## Building
+See tasks: `bundle exec rake -T`
+
+Full build: `bundle exec rake full_build`
+
+Tests only: `bundle exec rake spec`
+
 ## Usage
 
 ```
@@ -31,7 +38,7 @@ Please see that project's README for details on how configuration works.
 A basic example is
 
 ```
-# <top-level>/config/config.yml <-- this location is required
+# <your-top-level-project>/config/config.yml <-- this location is required
 :demo_logger:
   :level: info
 ```
