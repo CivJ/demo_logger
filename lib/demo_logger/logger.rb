@@ -2,6 +2,7 @@ require 'logger'
 
 module DemoLogger
   class Logger < Logger
+    attr_accessor :log_file
     # TODO: option for file.sync
     # @param  config [Hash] config options
     # @option config [String] :filename
@@ -11,10 +12,10 @@ module DemoLogger
     def initialize(config = {})
       log_file_name = config[:filename] || 'logger.log'
       log_file_path = config[:path] || '.'
-      log_file = File.open(File.join(File.expand_path(log_file_path), log_file_name), 'a')
-      super(log_file)
+      @log_file = File.open(File.join(File.expand_path(log_file_path), log_file_name), 'a')
+      super(@log_file)
 
-      self.level = config[:level] || Logger::DEBUG
+      self.level = config[:level] || Logger::WARN
     end
   end
 end
