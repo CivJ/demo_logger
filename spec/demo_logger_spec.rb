@@ -16,4 +16,10 @@ describe DemoLogger::Logger do
       end
     end
   end
+
+  context 'sanity check api behavior' do
+    context 'log level should be honored' do
+
+    end
+  end
 end
