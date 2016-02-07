@@ -56,5 +56,9 @@ The `Core` project is just a dummy project that depends on `demo-logger`. The on
 * spec/e2e/core/spec/unit/core_spec.rb
 
 ## TODOs
-Most of the obvious improvements that I am intentionally omitting are marked with TODO. Also, I have omitted the actual
-sending of email, but have hopefully designed this in a way such that it would be easy to plug in.
+Most of the obvious improvements that I am intentionally omitting are marked with TODO. 
+
+### Other omissions given that this is an interview question
+* Actually sending email: It should be easy to plug this in. Let's talk about it!
+* Integrating with a log aggregator (e.g. Logstash, Splunk)
+* Making everything configurable
