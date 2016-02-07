@@ -2,3 +2,4 @@
 
 :demo_logger:
   :file: info
+  :stdout: debug

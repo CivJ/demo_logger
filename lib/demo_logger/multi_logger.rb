@@ -1,7 +1,7 @@
 require 'logger'
 require 'clean_config'
 require_relative 'file_logger'
-
+require_relative 'stdout_logger'
 module DemoLogger
   class MultiLogger
     include CleanConfig::Configurable
@@ -22,16 +22,15 @@ module DemoLogger
     # @option config [String] :email log level for email
     def initialize(config = {})
       # defaults = { file: 'warn', stdout: 'warn', email: 'email' }
-      defaults = { demo_logger: { file: 'warn' } }
+      defaults = {
+        demo_logger: { file: 'warn', stdout: 'warn' }
+      }
       config = defaults.merge(CleanConfig::Configuration.instance).merge(config)
       @logs = []
       file_level = config[:demo_logger][:file]
-      @logs << FileLogger.new(const_get(file_level)) if file_level
-      # level = nil
-      # if config[:level]
-      #   level = Kernel.const_get("Logger::#{config[:level].upcase}")
-      # end
-      # self.level = level || Logger::WARN
+      stdout_level = config[:demo_logger][:stdout]
+      @logs << FileLogger.new(translate_level(file_level))
+      @logs << StdoutLogger.new(translate_level(stdout_level))
     end
 
     def debug
@@ -53,7 +52,7 @@ module DemoLogger
 
     private
 
-    def const_get(level)
+    def translate_level(level)
       LOGGER_CONST_MAP[level.downcase.to_sym]
     end
 

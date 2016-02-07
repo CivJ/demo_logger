@@ -4,7 +4,7 @@ require 'clean_config'
 module DemoLogger
   class FileLogger < Logger
     attr_accessor :log_file
-    # @param level [Hash] log level for files
+    # @param level [String] log level for files
     def initialize(level)
       log_file_path = File.join(Dir.pwd, 'logger.log')
       @log_file = File.open(File.join(File.expand_path(log_file_path)), 'a')
@@ -14,7 +14,6 @@ module DemoLogger
       # This sounds like an instruction to avoid buffering, so that's what we're doing.
       @log_file.sync = true
       super(@log_file)
-      puts "LEVEL: #{level}"
       self.level = level || Logger::WARN
     end
   end
