@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CivJ/demo_logger.svg?branch=zen_hw)](https://travis-ci.org/CivJ/demo_logger)
+
 # demo_logger
 
 This logging library layers additional features on top of Ruby's [logger](http://ruby-doc.org/stdlib-2.2.3/libdoc/logger/rdoc/Logger.html)
@@ -48,8 +50,11 @@ The tests at `spec/e2e/core/spec/unit` show what happens when you actually inclu
 into a new project. That is the appropriate location to test config value overrides and 'require' statements. Those
 tests should guarantee this project will work as expected from another project. 
 
-The `Core` project is just a dummy project that depends on `DemoLogger`. The only files of interest are:
+The `Core` project is just a dummy project that depends on `demo-logger`. The only files of interest are:
 
 * spec/e2e/core/lib/core.rb
 * spec/e2e/core/spec/unit/core_spec.rb
 
+## TODOs
+Most of the obvious improvements that I am intentionally omitting are marked with TODO. Also, I have omitted the actual
+sending of email, but have hopefully designed this in a way such that it would be easy to plug in.
