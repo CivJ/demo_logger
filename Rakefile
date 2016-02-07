@@ -6,11 +6,11 @@ RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new
 
 namespace :rm do
-  desc 'Remove ./tmp files'
-  task :tmp do
-    FileUtils.rm_rf('tmp')
+  desc 'Remove ./log files'
+  task :log do
+    FileUtils.rm_rf('log')
   end
 end
 
 desc 'Run style check, tests and build'
-task full_build: [:'rm:tmp', :rubocop, :spec, :build]
+task full_build: [:'rm:log', :rubocop, :spec, :build]

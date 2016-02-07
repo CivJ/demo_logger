@@ -34,26 +34,30 @@ describe DemoLogger::MultiLogger do
       expect(std_log.level).to eql Logger::FATAL
     end
 
-    # TODO: We can probably break this up into smaller tests.
-    it 'logs to all loggers at appropriate levels' do
+    context 'logging levels' do
+
       config = {
         demo_logger: { file: 'severe', stdout: 'debug' } }
 
-      logger = DemoLogger::MultiLogger.new(config)
-
-      # TODO: Make the stdout capturing work.
-      logger.debug('TEST-DEBUG')
-
+      let(:logger) { DemoLogger::MultiLogger.new(config) }
       # We can check the file immediately because sync is turned on.
-      log_file = logger.logs[DemoLogger::MultiLogger::FILE].log_file
-      file_contents = File.read(log_file)
-      expect(file_contents).to be_empty
+      let(:log_file) { logger.logs[DemoLogger::MultiLogger::FILE].log_file }
 
-      expected_contents = 'TEST-SEVERE'
-      logger.severe(expected_contents)
+      # TODO: check email files
+      it 'debug to all logs correctly' do
+        # TODO: Make the stdout capturing work.
+        logger.debug('TEST-DEBUG')
 
-      file_contents = File.read(log_file)
-      expect(file_contents).to include(expected_contents)
+        file_contents = File.read(log_file)
+        expect(file_contents).to be_empty
+      end
+
+      it 'severe to all logs correctly' do
+        expected_contents = 'TEST-SEVERE'
+        logger.severe(expected_contents)
+        file_contents = File.read(log_file)
+        expect(file_contents).to include(expected_contents)
+      end
     end
   end
 end
