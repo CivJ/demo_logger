@@ -48,6 +48,8 @@ describe DemoLogger::MultiLogger do
       expect(email_log.level).to eql Logger::INFO
     end
 
+    # TODO: have each test cleanup after itself. Right now the rake tasks
+    # are doing one big cleanup before the tests run.
     context 'logging levels' do
 
       config = {
@@ -56,8 +58,8 @@ describe DemoLogger::MultiLogger do
       let(:logger) { DemoLogger::MultiLogger.new(config) }
       # We can check the file immediately because sync is turned on.
       let(:log_file) { logger.logs[DemoLogger::MultiLogger::FILE].log_file }
+      let(:email_file) { logger.logs[DemoLogger::MultiLogger::FILE].log_file }
 
-      # TODO: check email files
       it 'debug to all logs correctly' do
         config = { demo_logger: { file: 'info', stdout: 'debug', email: 'severe' } }
         CleanConfig::Configuration.instance.merge!(config)
@@ -67,6 +69,9 @@ describe DemoLogger::MultiLogger do
 
         file_contents = File.read(log_file)
         expect(file_contents).to be_empty
+
+        email_contents = File.read(email_file)
+        expect(email_contents).to be_empty
       end
 
       it 'severe to all logs correctly' do
@@ -75,8 +80,12 @@ describe DemoLogger::MultiLogger do
 
         expected_contents = 'TEST-SEVERE'
         logger.severe(expected_contents)
+
         file_contents = File.read(log_file)
         expect(file_contents).to include(expected_contents)
+
+        email_contents = File.read(email_file)
+        expect(email_contents).to include(expected_contents)
       end
     end
   end

@@ -10,7 +10,12 @@ namespace :rm do
   task :log do
     FileUtils.rm_rf('log')
   end
+
+  desc 'Remove ./email files'
+  task :email do
+    FileUtils.rm_rf('email')
+  end
 end
 
 desc 'Run style check, tests and build'
-task full_build: [:'rm:log', :rubocop, :spec, :build]
+task full_build: [:'rm:log', :'rm:email', :rubocop, :spec, :build]

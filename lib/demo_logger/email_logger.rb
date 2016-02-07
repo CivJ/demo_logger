@@ -3,6 +3,7 @@ require 'stringio'
 
 module DemoLogger
   # TODO: This could share a common superclass with FileLogger
+  # TODO: Sending emails
   class EmailLogger < Logger
     attr_reader :email_file
     attr_accessor :send_mail
