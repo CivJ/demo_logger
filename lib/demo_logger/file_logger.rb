@@ -14,6 +14,7 @@ module DemoLogger
       # This sounds like an instruction to avoid buffering, so that's what we're doing.
       @log_file.sync = true
       super(@log_file)
+      puts "LEVEL: #{level}"
       self.level = level || Logger::WARN
     end
   end
