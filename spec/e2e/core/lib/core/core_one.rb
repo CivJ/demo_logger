@@ -7,7 +7,7 @@ module Core
     attr_reader :logger
 
     def initialize
-      @logger = DemoLogger::FileLogger.new
+      @logger = DemoLogger::MultiLogger.new
     end
   end
 end
