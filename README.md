@@ -31,6 +31,13 @@ Tests only: `bundle exec rake spec`
 require 'demo_logger'
 logger = DemoLogger::DemoLogger.new
 ```
+
+## Design Overview
+I use a `MultiLogger` class to dispatch messages to `FileLogger`, `StdoutLogger` and `EmailLogger`. Each of these
+classes depends on Ruby's built in `Logger` class. The logic is pretty simple, each class will always relieve all
+the logging calls, but will ignore or execute them according to their configuration. Please see `lib/demo_logger` 
+for the implementation. Tests are located at `spec/`.
+    
     
 ## Configuration
 
@@ -62,3 +69,4 @@ Most of the obvious improvements that I am intentionally omitting are marked wit
 * Actually sending email: It should be easy to plug this in. Let's talk about it!
 * Integrating with a log aggregator (e.g. Logstash, Splunk)
 * Making everything configurable
+* Aging log files (the underlying library supports this)
