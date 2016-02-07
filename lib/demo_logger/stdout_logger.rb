@@ -7,5 +7,9 @@ module DemoLogger
       super(STDOUT)
       self.level = level || Logger::WARN
     end
+
+    # Don't close STDOUT.
+    def close
+    end
   end
 end

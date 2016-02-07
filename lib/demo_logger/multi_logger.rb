@@ -62,6 +62,10 @@ module DemoLogger
       @logs.each { |_type, log| log.fatal(message) }
     end
 
+    def close
+      @logs.each { |_type, log| log.close }
+    end
+
     # rubocop:disable Style/TrailingWhitespace
 
     private

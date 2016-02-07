@@ -25,6 +25,8 @@ describe DemoLogger::MultiLogger do
       email_log = logger.logs[DemoLogger::MultiLogger::EMAIL]
       expect(email_log.class).to eql DemoLogger::EmailLogger
       expect(email_log.level).to eql Logger::FATAL
+
+      logger.close
     end
 
     it 'creates all loggers based on method parameters' do
@@ -46,6 +48,8 @@ describe DemoLogger::MultiLogger do
       email_log = logger.logs[DemoLogger::MultiLogger::EMAIL]
       expect(email_log.class).to eql DemoLogger::EmailLogger
       expect(email_log.level).to eql Logger::INFO
+
+      logger.close
     end
 
     # TODO: have each test cleanup after itself. Right now the rake tasks
@@ -60,6 +64,7 @@ describe DemoLogger::MultiLogger do
       let(:log_file) { logger.logs[DemoLogger::MultiLogger::FILE].log_file }
       let(:email_file) { logger.logs[DemoLogger::MultiLogger::FILE].log_file }
 
+      after(:each) { logger.close }
       it 'debug to all logs correctly' do
         config = { demo_logger: { file: 'info', stdout: 'debug', email: 'severe' } }
         CleanConfig::Configuration.instance.merge!(config)
