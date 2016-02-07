@@ -36,19 +36,26 @@ module DemoLogger
       @logs[MultiLogger::STDOUT] = StdoutLogger.new(translate_level(stdout_level))
     end
 
-    def debug
+    # TODO: We could probably clean this up with something clever.
+    def debug(message)
+      @logs.each { |_type, log| log.debug(message) }
     end
 
-    def info
+    def info(message)
+      @logs.each { |_type, log| log.info(message) }
     end
 
-    def log
+    # TODO: how should we map #log onto Logger's api?
+    def log(message)
+      @logs.each { |_type, log| log.info(message) }
     end
 
-    def warn
+    def warn(message)
+      @logs.each { |_type, log| log.warn(message) }
     end
 
-    def severe
+    def severe(message)
+      @logs.each { |_type, log| log.fatal(message) }
     end
 
     # rubocop:disable Style/TrailingWhitespace

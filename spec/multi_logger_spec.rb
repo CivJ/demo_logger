@@ -21,6 +21,7 @@ describe DemoLogger::MultiLogger do
       # See config/config.yml
       config = {
         demo_logger: { file: 'severe', stdout: 'severe' } }
+
       logger = DemoLogger::MultiLogger.new(config)
       expect(logger.logs.length).to eq 2
 
@@ -31,6 +32,21 @@ describe DemoLogger::MultiLogger do
       std_log = logger.logs[DemoLogger::MultiLogger::STDOUT]
       expect(std_log.class).to eql DemoLogger::StdoutLogger
       expect(std_log.level).to eql Logger::FATAL
+    end
+
+    it 'logs to all loggers' do
+      config = {
+        demo_logger: { file: 'severe', stdout: 'debug' } }
+
+      logger = DemoLogger::MultiLogger.new(config)
+
+      # TODO: Make the stdout capturing work.
+      logger.debug('TEST')
+
+      # We can check the file immediately because sync is turned on.
+      log_file = logger.logs[DemoLogger::MultiLogger::FILE].log_file
+      file_contents = File.read(log_file)
+      expect(file_contents).to be_empty
     end
   end
 end
