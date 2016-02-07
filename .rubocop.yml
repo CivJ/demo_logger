@@ -1,0 +1,12 @@
+Encoding:
+  Enabled: false
+
+LineLength:
+  Enabled: true
+  Max: 128
+
+Documentation:
+  Enabled: false
+
+MethodLength:
+  Enabled: false

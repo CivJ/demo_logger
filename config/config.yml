@@ -1,0 +1,7 @@
+# debug info log warn severe
+
+:demo_logger:
+  :file: info
+  :stdout: debug
+  :email: severe
+
