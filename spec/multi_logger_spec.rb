@@ -4,9 +4,15 @@ require_relative 'spec_helper'
 describe DemoLogger::MultiLogger do
   context 'logger creation' do
     it 'creates all loggers based on config file' do
+
       # See config/config.yml
+      # Because of the way Rspec loads/evals tests we have to babysit our
+      # configuration object. We would not have to do this outside of Rspec.
+      config = { demo_logger: { file: 'info', stdout: 'debug', email: 'severe' } }
+      CleanConfig::Configuration.instance.merge!(config)
+
       logger = DemoLogger::MultiLogger.new
-      expect(logger.logs.length).to eq 2
+      expect(logger.logs.length).to eq 3
 
       file_log = logger.logs[DemoLogger::MultiLogger::FILE]
       expect(file_log.class).to eql DemoLogger::FileLogger
@@ -15,15 +21,19 @@ describe DemoLogger::MultiLogger do
       std_log = logger.logs[DemoLogger::MultiLogger::STDOUT]
       expect(std_log.class).to eql DemoLogger::StdoutLogger
       expect(std_log.level).to eql Logger::DEBUG
+
+      email_log = logger.logs[DemoLogger::MultiLogger::EMAIL]
+      expect(email_log.class).to eql DemoLogger::EmailLogger
+      expect(email_log.level).to eql Logger::FATAL
     end
 
     it 'creates all loggers based on method parameters' do
       # See config/config.yml
       config = {
-        demo_logger: { file: 'severe', stdout: 'severe' } }
+        demo_logger: { file: 'severe', stdout: 'severe', email: 'info' } }
 
       logger = DemoLogger::MultiLogger.new(config)
-      expect(logger.logs.length).to eq 2
+      expect(logger.logs.length).to eq 3
 
       file_log = logger.logs[DemoLogger::MultiLogger::FILE]
       expect(file_log.class).to eql DemoLogger::FileLogger
@@ -32,6 +42,10 @@ describe DemoLogger::MultiLogger do
       std_log = logger.logs[DemoLogger::MultiLogger::STDOUT]
       expect(std_log.class).to eql DemoLogger::StdoutLogger
       expect(std_log.level).to eql Logger::FATAL
+
+      email_log = logger.logs[DemoLogger::MultiLogger::EMAIL]
+      expect(email_log.class).to eql DemoLogger::EmailLogger
+      expect(email_log.level).to eql Logger::INFO
     end
 
     context 'logging levels' do
@@ -45,6 +59,9 @@ describe DemoLogger::MultiLogger do
 
       # TODO: check email files
       it 'debug to all logs correctly' do
+        config = { demo_logger: { file: 'info', stdout: 'debug', email: 'severe' } }
+        CleanConfig::Configuration.instance.merge!(config)
+
         # TODO: Make the stdout capturing work.
         logger.debug('TEST-DEBUG')
 
@@ -53,6 +70,9 @@ describe DemoLogger::MultiLogger do
       end
 
       it 'severe to all logs correctly' do
+        config = { demo_logger: { file: 'info', stdout: 'debug', email: 'severe' } }
+        CleanConfig::Configuration.instance.merge!(config)
+
         expected_contents = 'TEST-SEVERE'
         logger.severe(expected_contents)
         file_contents = File.read(log_file)

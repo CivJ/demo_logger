@@ -5,6 +5,7 @@ require 'fileutils'
 module DemoLogger
   class FileLogger < Logger
     attr_accessor :log_file
+
     # @param level [String] log level for files
     def initialize(level)
       log_file_dir = File.expand_path(File.join(Dir.pwd, 'log'))

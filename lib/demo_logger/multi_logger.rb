@@ -2,6 +2,8 @@ require 'logger'
 require 'clean_config'
 require_relative 'file_logger'
 require_relative 'stdout_logger'
+require_relative 'email_logger'
+
 module DemoLogger
   class MultiLogger
     include CleanConfig::Configurable
@@ -24,19 +26,21 @@ module DemoLogger
     # @option config [String] :stdout log level for stdout
     # @option config [String] :email log level for email
     def initialize(config = {})
-      # defaults = { file: 'warn', stdout: 'warn', email: 'email' }
       defaults = {
-        demo_logger: { file: 'warn', stdout: 'warn' }
+        demo_logger: { file: 'warn', stdout: 'warn', email: 'warn' }
       }
       config = defaults.merge(CleanConfig::Configuration.instance).merge(config)
+
       @logs = {}
       file_level = config[:demo_logger][:file]
       stdout_level = config[:demo_logger][:stdout]
+      email_level = config[:demo_logger][:email]
       @logs[MultiLogger::FILE] = FileLogger.new(translate_level(file_level))
       @logs[MultiLogger::STDOUT] = StdoutLogger.new(translate_level(stdout_level))
+      @logs[MultiLogger::EMAIL] = EmailLogger.new(translate_level(email_level))
     end
 
-    # TODO: We could probably clean this up with something clever.
+    # TODO: We could probably clean this repetition up with something clever like Forwardable.
     def debug(message)
       @logs.each { |_type, log| log.debug(message) }
     end
