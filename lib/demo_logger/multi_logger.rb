@@ -15,6 +15,9 @@ module DemoLogger
       warn: Logger::WARN, # 2
       severe: Logger::FATAL # 4
     }
+    FILE = :file
+    STDOUT = :stdout
+    EMAIL = :email
 
     # @param  config [Hash] config options
     # @option config [String] :file log level for file
@@ -26,11 +29,11 @@ module DemoLogger
         demo_logger: { file: 'warn', stdout: 'warn' }
       }
       config = defaults.merge(CleanConfig::Configuration.instance).merge(config)
-      @logs = []
+      @logs = {}
       file_level = config[:demo_logger][:file]
       stdout_level = config[:demo_logger][:stdout]
-      @logs << FileLogger.new(translate_level(file_level))
-      @logs << StdoutLogger.new(translate_level(stdout_level))
+      @logs[MultiLogger::FILE] = FileLogger.new(translate_level(file_level))
+      @logs[MultiLogger::STDOUT] = StdoutLogger.new(translate_level(stdout_level))
     end
 
     def debug
